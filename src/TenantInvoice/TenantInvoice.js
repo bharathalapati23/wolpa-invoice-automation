@@ -56,33 +56,75 @@ const TenantInvoice = () => {
                 totalFees += Number(otherItem.fee)
             })
         }
-        chargesList.push(['', 'Total', totalFees])
+        chargesList.push(['', 'Total', 'INR '+totalFees])
 
 
         // Generate PDF stuff
         doc.addImage("data:image/png;base64,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",
-            "PNG", 10, 10, 40, 60);
-        doc.text("Wolpa Accomodation Services", 55, 10);
-        doc.text("Manipal - 576104", 55, 20);
-        doc.text("P: +91 9591798639 | E: hello@wolpa.in", 55, 30)
-        doc.text("www.wolpa.in", 55, 40)
-
+            "PNG", 10, 5, 35, 50);
+        doc.setFont("Calibri", "bold")
+        doc.setFontSize(16);
+        doc.text("Wolpa Accomodation Services", 47, 10);
+        doc.setFontSize(12);
+        doc.setFont("Calibri", "normal")
+        doc.text("Manipal - 576104", 47, 15);
+        doc.text("P: +91 9591798639 | E: hello@wolpa.in", 47, 20)
+        doc.text("www.wolpa.in", 47, 25)
+        doc.setFont("Calibri", "bold")
+        doc.setFontSize(18);
+        doc.text("Tenant Profile",10,67)
+        doc.setFont("Calibri", "normal");
         for (let i = 0; i < tenantInfoArr.length; i++) {
-            let yCoord = 90 + i * 60
-            doc.text(10, yCoord, `Tenant ${i + 1}`)
-            doc.text(10, yCoord + 10, `Name: ${tenantInfoArr[i].name}`)
-            doc.text(10, yCoord + 20, `DOB: ${tenantInfoArr[i].dob}`)
-            doc.text(10, yCoord + 30, `${isStudent ? 'Degree' : 'Profession'}: ${tenantInfoArr[i].profOrDegree}`)
-            doc.text(10, yCoord + 40, `${isStudent ? 'Institute' : 'Company'}: ${tenantInfoArr[i].compOrInstitute}`)
+            let yCoord = 80 + i * 60
+            if(i>0)
+            {   
+                let yCoord2= 80+i*60
+                if(i>0){
+                    yCoord2=yCoord2-(2*i)*15
+                }
+                doc.setFont("Calibri", "bold");
+                doc.setFontSize(12);
+                doc.text(10, yCoord2, `Tenant ${i + 1}`)
+                doc.setFont("Calibri", "normal");
+                doc.text(10, yCoord2 + 5, `Name: ${tenantInfoArr[i].name}`)
+                doc.text(10, yCoord2 + 10, `DOB: ${tenantInfoArr[i].dob}`)
+                doc.text(10, yCoord2 + 15, `${isStudent ? 'Degree' : 'Profession'}: ${tenantInfoArr[i].profOrDegree}`)
+                doc.text(10, yCoord2 + 20, `${isStudent ? 'Institute' : 'Company'}: ${tenantInfoArr[i].compOrInstitute}`) 
+                console.log(yCoord2)
+            }
+            else{
+                doc.setFont("Calibri", "bold");
+                doc.setFontSize(12);
+                doc.text(10, yCoord, `Tenant ${i + 1}`)
+                doc.setFont("Calibri", "normal");
+                doc.text(10, yCoord + 5, `Name: ${tenantInfoArr[i].name}`)
+                doc.text(10, yCoord + 10, `DOB: ${tenantInfoArr[i].dob}`)
+                doc.text(10, yCoord + 15, `${isStudent ? 'Degree' : 'Profession'}: ${tenantInfoArr[i].profOrDegree}`)
+                doc.text(10, yCoord + 20, `${isStudent ? 'Institute' : 'Company'}: ${tenantInfoArr[i].compOrInstitute}`)
+            }
         }
-
-        doc.text(10, 90 + (tenantInfoArr.length * 60), 'Quotation')
-        doc.autoTable({ html: '#my-table' })
+        doc.setFont("Calibri", "bold");
+        doc.setFontSize(18);
+        if(tenantInfoArr.length>0){
+            doc.text(10,85+((2*tenantInfoArr.length)*15), 'Quotation')
+        }
+        else{
+            doc.text(10, 70 + (tenantInfoArr.length * 50), 'Quotation')
+        }
+        doc.setFont("Calibri", "normal");
+        doc.setFontSize(12);
+        doc.autoTable({ html: '#my-table',
+        didParseCell(data){
+            if(data.cell.row.index === -1){
+                data.cell.styles.setFont("Calibri", "normal")
+            }
+        }})
         doc.autoTable({
             body: chargesList,
-            startY: 90 + (tenantInfoArr.length * 60) + 20,
+            startY: 90 + (2*tenantInfoArr.length * 15) + 10,
+            
         })
-        doc.save("a4.pdf");
+        doc.save("Quotation.pdf");
     }
 
     // States
