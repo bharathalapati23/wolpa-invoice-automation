@@ -1,8 +1,8 @@
 import React from "react";
 import './App.css';
-import HomePage from "./TenantInvoice/HomePage";
+import HomePage from "./Homepage/HomePage";
 import TenantInvoice from './TenantInvoice/TenantInvoice'
-import OwnerInvoice from "./TenantInvoice/OwnerInvoive";
+import OwnerInvoice from "./OwnerInvoice/OwnerInvoice";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (
