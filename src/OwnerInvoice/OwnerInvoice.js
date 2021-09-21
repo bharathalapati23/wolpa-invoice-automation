@@ -35,6 +35,10 @@ const OwnerInvoice = (props) => {
         const charges = []
         let tenantName=[]
         let totalCharge=Number(serviceFee)+Number(securityDeposit)
+        let date = new Date(transactionDate)
+        const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        let transactionDateFormat=date.toLocaleDateString('en-US', DATE_OPTIONS)
+        
 
         for (let i = 0; i < tenantInfoArr.length; i++) {
             tenantName.push(tenantInfoArr[i].name)
@@ -47,11 +51,11 @@ const OwnerInvoice = (props) => {
         table1List.push(['Rent','INR '+rent])
         table1List.push(['Maintenance',maintenanceFee])
         table1List.push(['Deposit','INR '+deposit])
-        table1List.push(['Number of occupants',occupants])
+        table1List.push(['Number of occupants',tenantInfoArr.length])
         charges.push([1,' Service Fee including viewing charges for Service Fee including viewing charges for '+bedroomNumber+'-Bedroom Home ',serviceFee])
         charges.push([2,'Blocking amount towards Security Deposit',securityDeposit])
         charges.push([' ','Total','INR '+totalCharge])
-        const yCoord=tenantInfoArr.length+10
+        const yCoord=(3*tenantInfoArr.length)+10
                 
         doc.addImage(imageUrl,"PNG", 30, 15, 30, 30);
         doc.setFont("Calibri", "bold")
@@ -105,7 +109,7 @@ const OwnerInvoice = (props) => {
         doc.setFontSize(12);
         doc.text("1. Please share the Aadhar Card and College ID cards for generation of rental",33,yCoord+213)
         doc.text("    agreement",33,yCoord+218)
-        doc.text("2. Complete the above transaction on or before "+transactionDate,33,yCoord+223)
+        doc.text("2. Complete the above transaction on or before "+transactionDateFormat,33,yCoord+223)
         doc.text("3. Rental Agreement to be signed off and Deposit to be paid five days prior to move-in.",33,yCoord+228)
         doc.text("4. Final snag check along with Wolpa representative, to identify any defects or repairs",33,yCoord+233)
         doc.text("    required.",33,yCoord+238)
@@ -135,7 +139,6 @@ const OwnerInvoice = (props) => {
     const [ownerAdress, setOwnerAdress] = React.useState('')
     const [rent, setRent] = React.useState('')
     const [deposit, setDeposit] = React.useState('')
-    const [occupants, setOccupants] = React.useState('')
     const [bedroomNumber, setBedroomNumber] = React.useState('')
     const [serviceFee, setServiceFee] = React.useState('')
     const [securityDeposit, setSecurityDeposit] = React.useState('')
@@ -160,9 +163,6 @@ const OwnerInvoice = (props) => {
     }
     const handleDeposit = (e) => {
         setDeposit(e.target.value)
-    }
-    const handleOccupants = (e) => {
-        setOccupants(e.target.value)
     }
     const handleBedroomNumber = (e) => {
         setBedroomNumber(e.target.value)
@@ -226,10 +226,6 @@ const OwnerInvoice = (props) => {
                 Deposit ammount
             </Typography> 
         <TextField label="Deposit" type='number'  onChange={handleDeposit} value={deposit}/>
-        <Typography variant="h7" component="h7">
-                Number of Occupants 
-            </Typography> 
-        <TextField label="Occupants" type='number' onChange={handleOccupants} value={occupants}/>
         <Typography variant="h7" component="h7">
                 Number of Bedrooms 
             </Typography> 
