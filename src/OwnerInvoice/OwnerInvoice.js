@@ -42,9 +42,9 @@ const OwnerInvoice = (props) => {
 
         for (let i = 0; i < tenantInfoArr.length; i++) {
             tenantName.push(tenantInfoArr[i].name)
-            console.log(tenantName.join('\r\n'))
         }
-        
+            
+        //pushing elements for the autotable
         table1List.push(['Tenants',tenantName.join('\r\n')])
         table1List.push(['Homeowner',ownerName])
         table1List.push(['Adress',ownerAdress])
@@ -55,8 +55,13 @@ const OwnerInvoice = (props) => {
         charges.push([1,' Service Fee including viewing charges for Service Fee including viewing charges for '+bedroomNumber+'-Bedroom Home ',serviceFee])
         charges.push([2,'Blocking amount towards Security Deposit',securityDeposit])
         charges.push([' ','Total','INR '+totalCharge])
-        const yCoord=(3*tenantInfoArr.length)+10
-                
+        let yCoord=(3*tenantInfoArr.length)+10
+        let yCoordOwnerAdress=Math.floor((ownerAdress.length)/33)
+        if(ownerAdress.length>33){
+            yCoord=(yCoordOwnerAdress*6)+yCoord
+        }
+        
+        //jspdf
         doc.addImage(imageUrl,"PNG", 30, 15, 30, 30);
         doc.setFont("Calibri", "bold")
         doc.setFontSize(16);
@@ -83,6 +88,7 @@ const OwnerInvoice = (props) => {
             body: table1List,
             startY: 77,
             margin: 30,
+            
         })
         doc.setFont("Calibri", "bold")
         doc.setFontSize(18);
@@ -113,6 +119,28 @@ const OwnerInvoice = (props) => {
         doc.text("3. Rental Agreement to be signed off and Deposit to be paid five days prior to move-in.",33,yCoord+228)
         doc.text("4. Final snag check along with Wolpa representative, to identify any defects or repairs",33,yCoord+233)
         doc.text("    required.",33,yCoord+238)
+        if(yCoord+253>278)
+        {
+            doc.addPage()
+            doc.text("5. Post the Snag Check and tenant approval, the tenants will move-in. If any repairs /",33,30)
+        doc.text("    defects identified thereafter, Wolpa shall extend its full assistance during the tenure,",33,35)
+        doc.text("    but at the tenants own cost.",33,40)
+        doc.setFontSize(12);
+        doc.text("6. Remaining terms and conditions of the Rental Accommodation to be read in full as",33,45)
+        doc.text("    part of the Renal Agreement.",33,50)
+        doc.text("Thank you.",33,64)
+        doc.text("Wolpa Team",33,69)
+        doc.text("Follow us for updates:",30,170)
+        doc.setTextColor("blue");
+        doc.text("https://www.instagram.com/wolpa.in",30,175)
+        doc.setDrawColor(0, 0, 255);
+        doc.line(30, 176, 94, 176);
+        doc.text("https://www.facebook.com/wolpamanipal",30,180)
+        doc.setDrawColor(0, 0, 255);
+        doc.line(30, 181, 102, 181);
+            
+        }
+        else{
         doc.text("5. Post the Snag Check and tenant approval, the tenants will move-in. If any repairs /",33,yCoord+243)
         doc.text("    defects identified thereafter, Wolpa shall extend its full assistance during the tenure,",33,yCoord+248)
         doc.text("    but at the tenants own cost.",33,yCoord+253)
@@ -131,6 +159,7 @@ const OwnerInvoice = (props) => {
         doc.text("https://www.facebook.com/wolpamanipal",30,180)
         doc.setDrawColor(0, 0, 255);
         doc.line(30, 181, 102, 181);
+        }
         doc.save("Scope of work and Quotation.pdf");
     }
 
@@ -209,11 +238,11 @@ const OwnerInvoice = (props) => {
         <TextField label="Owner Adress" type='text' onChange={handleOwnersAdress} value={ownerAdress}/>
         <Typography variant="h7" component="h7">
             Rent ammount
-            </Typography> 
+        </Typography> 
         <TextField label="Rent" type='number' onChange={handleRent} value={rent}/>
         <Typography variant="h7" component="h7">
             Maintenance Charges
-            </Typography>
+         </Typography>
             <Switch
                  checked={isMaintenanceIncluded}
                  onChange={handleMaintenanceChange}
@@ -224,27 +253,27 @@ const OwnerInvoice = (props) => {
             {isMaintenanceIncluded && <TextField label="Maintenance Charges" type='number' onChange={handleMaintenanceFeeChange} value={maintenanceFee} />}
         <Typography variant="h7" component="h7">
                 Deposit ammount
-            </Typography> 
+        </Typography> 
         <TextField label="Deposit" type='number'  onChange={handleDeposit} value={deposit}/>
         <Typography variant="h7" component="h7">
                 Number of Bedrooms 
-            </Typography> 
+        </Typography> 
         <TextField label="Bedrooms" type='number' onChange={handleBedroomNumber} value={bedroomNumber}/>
         <Typography variant="h7" component="h7">
                 Service Fees for the appartment 
-            </Typography> 
+        </Typography> 
         <TextField label="Service" type='number'  onChange={handleServiceFee} value={serviceFee}/>
         <Typography variant="h7" component="h7">
                 Security Deposit 
-            </Typography> 
+        </Typography> 
         <TextField label="Security Deposit" type='number'  onChange={handleSecurityDeposit} value={securityDeposit}/>
         <Typography variant="h7" component="h7">
             On or before transaction Day 
-            </Typography> 
+        </Typography> 
         <TextField type='date' onChange={handleTransactionDate} value={transactionDate}/>
          <button onClick={generatePdf} className={classes.generateButtonStyle}>
-                Generate PDF
-            </button>
+            Generate PDF
+        </button>
     </div>
   );
 };
