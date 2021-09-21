@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const TenantInfoAccordion2 = ({ index, tenantInfoArr, setTenantInfoArr }) => {
+const TenantInputTextField = ({ index, tenantInfoArr, setTenantInfoArr }) => {
     const classes = useStyles()
 
     const handleChange = (e, type) => {
@@ -37,4 +37,4 @@ const TenantInfoAccordion2 = ({ index, tenantInfoArr, setTenantInfoArr }) => {
     )
 }
 
-export default TenantInfoAccordion2
+export default TenantInputTextField
