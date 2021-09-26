@@ -10,7 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import TenantInfoAccordion from './TenantInfoAccordion'
 import OtherItemsInput from './OtherItemsInput'
-import imageUrl from '../images/ImageUrl';
+import PDFHeader from '../PDFHeder';
+import exportedObject from '../AutoTables';
 
 
 const useStyles = makeStyles(() => ({
@@ -61,59 +62,35 @@ const TenantInvoice = () => {
 
 
         // Generate PDF stuff
-        doc.addImage(imageUrl,"PNG", 30, 15, 30, 30);
-        doc.setFont("Calibri", "bold")
-        doc.setFontSize(16);
-        doc.text("Wolpa Accomodation Services", 70, 19);
-        doc.setFontSize(14);
-        doc.setFont("Calibri", "normal")
-        doc.text("Manipal - 576104", 70, 26);
-        doc.text("P: +91 9591798639 |", 70, 34)
-        doc.setTextColor("blue");
-        doc.text("E: hello@wolpa.in",115,34)
-        doc.setDrawColor(0, 0, 255);
-        doc.line(115, 35, 152, 35);
-        doc.setTextColor("black");
-        doc.text("www.wolpa.in", 70, 42)
+        PDFHeader({ doc })
         doc.setFont("Calibri", "bold")
         doc.setFontSize(18);
-        doc.text("Tenant Profile",30,60)
+        doc.text("Tenant Profile", 30, 60)
         doc.setFont("Calibri", "normal");
         for (let i = 0; i < tenantInfoArr.length; i++) {
             let yCoord = 75 + i * 60
-                if(i>0){
-                    yCoord=yCoord-i*30
-                }
-                doc.setFont("Calibri", "bold");
-                doc.setFontSize(12);
-                doc.text(30, yCoord, `Tenant ${i + 1}`)
-                doc.setFont("Calibri", "normal");
-                doc.text(30, yCoord + 6, `Name: ${tenantInfoArr[i].name}`)
-                doc.text(30, yCoord + 11, `DOB: ${tenantInfoArr[i].dob}`)
-                doc.text(30, yCoord + 16, `${isStudent ? 'Degree' : 'Profession'}: ${tenantInfoArr[i].profOrDegree}`)
-                doc.text(30, yCoord + 21, `${isStudent ? 'Institute' : 'Company'}: ${tenantInfoArr[i].compOrInstitute}`) 
-           
+            if (i > 0) {
+                yCoord = yCoord - i * 30
+            }
+            doc.setFont("Calibri", "bold");
+            doc.setFontSize(12);
+            doc.text(30, yCoord, `Tenant ${i + 1}`)
+            doc.setFont("Calibri", "normal");
+            doc.text(30, yCoord + 6, `Name: ${tenantInfoArr[i].name}`)
+            doc.text(30, yCoord + 11, `DOB: ${tenantInfoArr[i].dob}`)
+            doc.text(30, yCoord + 16, `${isStudent ? 'Degree' : 'Profession'}: ${tenantInfoArr[i].profOrDegree}`)
+            doc.text(30, yCoord + 21, `${isStudent ? 'Institute' : 'Company'}: ${tenantInfoArr[i].compOrInstitute}`)
+
         }
         doc.setFont("calibri", "bold");
         doc.setFontSize(18);
-        if(tenantInfoArr.length>0){
-            doc.text(30,85+((tenantInfoArr.length)*30), 'Quotation')
+        if (tenantInfoArr.length > 0) {
+            doc.text(30, 85 + ((tenantInfoArr.length) * 30), 'Quotation')
         }
-        else{
+        else {
             doc.text(30, 70 + (tenantInfoArr.length * 50), 'Quotation')
         }
-        doc.autoTable({ html: '#my-table',})
-        doc.autoTable({
-            theme : 'grid',
-            tableWidth: 155,
-            styles:{textColor:[0,0,0],lineColor:[0,0,0],lineWidth: 0.3,fontSize:12}, 
-            columnStyles:{0:{cellWidth: 8},1:{cellWidth: 100},2:{cellWidth: 35},},           
-            body: chargesList,
-            startY: 83 + (tenantInfoArr.length * 30) + 10,
-            margin: 30,
-            footStyles: {fillColor:[255, 255, 255],textColor:[0,0,0],cellWidth:'auto'},
-            foot: [[' ','Total','INR '+totalFees]],
-        })
+        exportedObject.AutoTableTenantInvoice({ doc, chargesList, tenantInfoArr, totalFees })
         doc.save("Tenant Quotation.pdf");
     }
 

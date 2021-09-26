@@ -18,24 +18,30 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const HomePage = () =>{
+const HomePage = () => {
     const classes = useStyles()
     const history = useHistory();
 
     const handleClick = () => history.push('/tenantinvoice');
     const handleOwnerInfo = () => history.push('/ownerinvoice');
-    
-    return(
+    const handleDraftTerms = () => history.push('/drafttermsinvoice')
+
+    return (
         <div className={classes.root}>
-            <Box m={8} pt={12}>
-            <Button variant="contained" color="primary" onClick={handleClick}>
-                Tenant Info
-            </Button>
+            <Box m={4} pt={12}>
+                <Button variant="contained" color="primary" onClick={handleClick}>
+                    Tenant Info
+                </Button>
             </Box>
             <Box m={4} pt={6}>
-            <Button variant="contained" color="primary" onClick={handleOwnerInfo}>
-                Owner Info
-            </Button>
+                <Button variant="contained" color="primary" onClick={handleOwnerInfo}>
+                    Owner Info
+                </Button>
+            </Box>
+            <Box m={4} pt={6}>
+                <Button variant="contained" color="primary" onClick={handleDraftTerms}>
+                    Draft Terms
+                </Button>
             </Box>
         </div>
     )
