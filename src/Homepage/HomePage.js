@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: '1300px',
+        maxWidth: '1200px',
         alignItems: 'center'
 
     },

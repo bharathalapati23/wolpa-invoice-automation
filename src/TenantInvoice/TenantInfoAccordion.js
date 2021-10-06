@@ -5,7 +5,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,9 +57,9 @@ const TenantInfoAccordion = ({ index, tenantInfoArr, setTenantInfoArr }) => {
                 <div className={classes.root}>
                     <TextField label="Name" value={tenantInfoArr[index].name} onChange={(e) => handleChange(e, 'name')} />
                     <Typography>DOB</Typography>
-                    <TextField type="date" value={tenantInfoArr[index].dob} onChange={(e) => handleChange(e, 'dob')}/>
-                    <TextField label="Profession or Degree" value={tenantInfoArr[index].profOrDegree} onChange={(e) => handleChange(e, 'profOrDegree')}/>
-                    <TextField label="Company or Institute" value={tenantInfoArr[index].compOrInstitute} onChange={(e) => handleChange(e, 'compOrInstitute')}/>
+                    <TextField type="date" value={tenantInfoArr[index].dob} onChange={(e) => handleChange(e, 'dob')} />
+                    <TextField label="Profession or Degree" value={tenantInfoArr[index].profOrDegree} onChange={(e) => handleChange(e, 'profOrDegree')} />
+                    <TextField label="Company or Institute" value={tenantInfoArr[index].compOrInstitute} onChange={(e) => handleChange(e, 'compOrInstitute')} />
 
                 </div>
             </AccordionDetails>

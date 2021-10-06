@@ -2,7 +2,7 @@ import React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -90,7 +90,7 @@ const DefaultItemsCheckBox = () => {
                 {isLedRoundBulbIncluded && <TextField label="Quantity" type='number' onChange={handleLedRoundBulbQuantity} value={ledRoundBulbQuantity} />}</div>
             <div><FormControlLabel control={<Checkbox defaultChecked />} label="Curtain Rod" checked={isCurtainRodIncluded} onChange={handleCurtainRod} />
                 {isCurtainRodIncluded && <TextField label="Quantity" type='number' onChange={handleCurtainRodQuantity} value={curtainRodQuantity} />}</div>
-            <div><FormControlLabel control={<Checkbox defaultChecked />} label="Curtain" checked={isCurtainIncluded} onChange={handleCurtain} />
+            <div><FormControlLabel control={<Checkbox defaultChecked />} label="Curtain " checked={isCurtainIncluded} onChange={handleCurtain} />
                 {isCurtainIncluded && <TextField label="Quantity" type='number' onChange={handleCurtainQuantity} value={curtainQuantity} />}</div>
             <div><FormControlLabel control={<Checkbox defaultChecked />} label="Ceiling Fan" checked={isCeilingFanIncluded} onChange={handleCeilingFan} />
                 {isCeilingFanIncluded && <TextField label="Quantity" type='number' onChange={handleCeilingFanQuantity} value={ceilingFanQuantity} />}</div>
