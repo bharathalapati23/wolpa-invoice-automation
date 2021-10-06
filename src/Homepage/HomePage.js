@@ -25,6 +25,7 @@ const HomePage = () => {
     const handleClick = () => history.push('/tenantinvoice');
     const handleOwnerInfo = () => history.push('/ownerinvoice');
     const handleDraftTerms = () => history.push('/drafttermsinvoice')
+    const handlereceipt = () => history.push('/receiptgenerator')
 
     return (
         <div className={classes.root}>
@@ -41,6 +42,11 @@ const HomePage = () => {
             <Box m={4} pt={6}>
                 <Button variant="contained" color="primary" onClick={handleDraftTerms}>
                     Draft Terms
+                </Button>
+            </Box>
+            <Box m={4} pt={6}>
+                <Button variant="contained" color="primary" onClick={handlereceipt}>
+                    Receipt
                 </Button>
             </Box>
         </div>

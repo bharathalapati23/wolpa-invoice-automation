@@ -12,6 +12,8 @@ import SecondPartInfoAccordion from './SecondPartInfoAccordion';
 import ItemsProvidedInput from './ItemsProvidedInput';
 import PDFHeader from '../PDFHeder';
 import exportedObject from '../AutoTables';
+import DefaultItemsCheckBox from './DefaultItemsCheckBox';
+import { Switch } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -62,11 +64,13 @@ const DraftTermsInvoice = () => {
         let yCoord3 = 100 + (5 * (itemProvidedArr.length + 1)) + (2 * itemProvidedArr.length)
         let converter = require('number-to-words');
         let agreementPeriodWord = converter.toWords(agreementPeriod)
+        agreementPeriodWord = agreementPeriodWord.charAt(0).toUpperCase() + agreementPeriodWord.slice(1);
         let securityDepositWord = converter.toWords(securityDeposite)
         let rentWord = converter.toWords(rent)
         if (itemProvidedArr.length > 23) {
             yCoord3 = (((itemProvidedArr.length % 23) + 1) * 7) + 50
         }
+
         //jspsf
         PDFHeader({ doc })
         doc.setFont("Calibri", "bold")
@@ -76,22 +80,25 @@ const DraftTermsInvoice = () => {
         doc.text("This agreement of lease dated " + leaseDateFormat + ", between", 30, 62)
         let firstPartyInfo = doc.splitTextToSize("1." + firstPartyName + ", " + firstPartyAddress, (pdfInMM - leftMargin - rightMargin))
         doc.text(firstPartyInfo, leftMargin, 69)
-        doc.text('hereinafter called the ', 30, 79)
+        doc.text('hereinafter called the ', 30, firstPartyInfo.length * 5 + 69)
         doc.setFont("Calibri", "bold")
-        doc.text('“The First Party”', 67, 79.1)
+        doc.setFontSize(12);
+        doc.text('“The First Party”', 67, firstPartyInfo.length * 5 + 69)
         doc.setFont("Calibri", "normal")
-        doc.text("- AND -", 30, 87)
+        doc.text("- AND -", 30, firstPartyInfo.length * 5 + 79)
         for (let i = 0; i < secondPartyInfoArr.length; i++) {
-            let yCoord = 96 + i * 15
+            let yCoord = 95 + i * 15
             let secondPersonInfo = doc.splitTextToSize((i + 1) + ". " + secondPartyInfoArr[i].name + ", " + secondPartyInfoArr[i].collegeIdNumber + ", " + secondPartyInfoArr[i].collegeName + "\nC/O " + secondPartyInfoArr[i].address, (pdfInMM - leftMargin - rightMargin))
             doc.text(secondPersonInfo, leftMargin, yCoord)
         }
-        doc.text('hereinafter called the ', 30, yCoord2 + 49)
+        console.log(secondPartyInfoArr.length)
+        doc.text('hereinafter called the ', 30, secondPartyInfoArr.length * 2.5 + yCoord2 + 43)
         doc.setFont("Calibri", "bold")
-        doc.text('“The Second Party”', 68, yCoord2 + 49.1)
+        doc.setFontSize(12);
+        doc.text('“The Second Party”', 67, secondPartyInfoArr.length * 2.5 + yCoord2 + 43)
         doc.text("Terms and Conditions", 30, yCoord2 + 60)
         doc.setFont("Calibri", "normal")
-        doc.text("1. The First Party has to lease out the said flat to the Second Party for the period of " + agreementPeriod + "(" + agreementPeriodWord + ")", 30, yCoord2 + 67)
+        doc.text("1. The First Party has to lease out the said flat to the Second Party for the period of " + agreementPeriod + " (" + agreementPeriodWord + ")", 30, yCoord2 + 67)
         doc.text("  months commencing from " + lStartDate + " till " + lEndDate, 33, yCoord2 + 72)
         doc.text("2. A security deposit of INR " + securityDeposite + "/- (Rupees " + securityDepositWord + " only) has been paid to the", 30, yCoord2 + 77)
         doc.text("  first party in respect of said residential house by the second party at the time of\n  surrendering vacant possession of the said residential flat by the Second Party in favour of\n  the First Party free of interest subject to the deduction of agreed dues from the Second\n  Party towards monthly rent, if any and anticipated electric bill or any agreed damages etc.", 33, yCoord2 + 82)
@@ -104,6 +111,10 @@ const DraftTermsInvoice = () => {
         doc.text("  from the security deposit.", 33, yCoord2 + 132)
         doc.text("7. Any damages caused to the flat by the negligence of the Second Party during the period", 30, yCoord2 + 137)
         doc.text("  of occupancy shall be repaired by the Second Party or in the absence of which shall be made \n  good by the Second Party allowing reasonable wear and tear. The Second Party shall be fully \n  responsible for any kind of damages caused to the Furniture & Electronic items and fixtures, \n  paints, etc., the First Party has the right to reimburse the full amount from the Second Party.", 33, yCoord2 + 142)
+        if (isClauseIncluded === true) {
+            let clauseDescription = doc.splitTextToSize("8. " + clause, (pdfInMM - leftMargin - rightMargin))
+            doc.text(clauseDescription, leftMargin, yCoord2 + 162)
+        }
         doc.addPage()
         doc.setFont("Calibri", "bold")
         doc.text("Description of Schedule Premises", 30, 30)
@@ -120,7 +131,7 @@ const DraftTermsInvoice = () => {
         doc.text("Signature of Lessor", 30, yCoord3 + 10)
         doc.text("Signature of Lessee", 150, yCoord3 + 10)
         doc.setFont("Calibri", "bold")
-        doc.text("Witnesses", 30, yCoord3 + 30)
+        doc.text("Witnesses", 30, yCoord3 + 42)
         doc.save("Draft Terms.pdf");
     }
 
@@ -141,6 +152,8 @@ const DraftTermsInvoice = () => {
     const [muncipalDoorNumber, setMuncipalDoorNumber] = React.useState('')
     const [floorNumber, setFloorNumber] = React.useState('')
     const [premisesAddress, setPremisesAddress] = React.useState('')
+    const [isClauseIncluded, setIsClauseIncluded] = React.useState(false)
+    const [clause, setClause] = React.useState('')
 
     //Handle Events
     const handleAgreementPeriod = (e) => {
@@ -201,6 +214,12 @@ const DraftTermsInvoice = () => {
     const handlePremisesAddress = (e) => {
         setPremisesAddress(e.target.value)
     }
+    const handleClauseChange = (e) => {
+        setIsClauseIncluded(prevState => !prevState)
+    }
+    const handleClause = (e) => {
+        setClause(e.target.value)
+    }
 
     return (
         <div className={classes.root}>
@@ -253,6 +272,17 @@ const DraftTermsInvoice = () => {
                 Rent
             </Typography>
             <TextField label="Rent" type='number' onChange={handleRent} value={rent} />
+            <Typography variant="h7" component="h7">
+                Extra Clause
+            </Typography>
+            <Switch
+                checked={isClauseIncluded}
+                onChange={handleClauseChange}
+                color="primary"
+                name="checkedB"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+            />
+            {isClauseIncluded && <TextField label="Clause" type='text' onChange={handleClause} value={clause} />}
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -278,6 +308,7 @@ const DraftTermsInvoice = () => {
                     </div>
                 </AccordionDetails>
             </Accordion>
+            <DefaultItemsCheckBox />
             <Typography variant="h9" component="h9">
                 No. of Schedule of Fittings, Furnishings and all Fixtures
             </Typography>

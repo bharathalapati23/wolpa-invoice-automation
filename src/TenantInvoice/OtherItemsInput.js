@@ -26,7 +26,7 @@ const OtherItemsInput = ({ index, otherItemsArr, setOtherItemsArr }) => {
         <div>
             <Typography>Other Item {index + 1}</Typography>
             <TextField label="Name" value={otherItemsArr[index].name} onChange={(e) => handleChange(e, 'name')} />
-            <TextField label="Fee" value={otherItemsArr[index].fee} onChange={(e) => handleChange(e, 'fee')} />
+            <TextField label="Fee" type='number' value={otherItemsArr[index].fee} onChange={(e) => handleChange(e, 'fee')} />
         </div>
     )
 }
