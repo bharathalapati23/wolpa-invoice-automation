@@ -1,6 +1,6 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,7 +21,7 @@ const TenantInputTextField = ({ index, tenantInfoArr, setTenantInfoArr }) => {
                 tempTenantInfoArr[index].name = e.target.value
                 setTenantInfoArr(tempTenantInfoArr)
                 break;
-           
+
             default:
             // code block
         }
@@ -29,11 +29,11 @@ const TenantInputTextField = ({ index, tenantInfoArr, setTenantInfoArr }) => {
     }
 
     return (
-        
-                <div className={classes.root}>
-                    <TextField label="Name" value={tenantInfoArr[index].name} onChange={(e) => handleChange(e, 'name')} />
-                </div>
-        
+
+        <div className={classes.root}>
+            <TextField label="Name" value={tenantInfoArr[index].name} onChange={(e) => handleChange(e, 'name')} />
+        </div>
+
     )
 }
 

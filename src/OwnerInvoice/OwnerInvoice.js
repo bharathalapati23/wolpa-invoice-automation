@@ -1,7 +1,7 @@
 import React from 'react';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
